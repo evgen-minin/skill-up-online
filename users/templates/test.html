@@ -1,0 +1,20 @@
+1 {% extends "catalog/base.html" %} {% load crispy_forms_tags %} {% block title
+%}Форма - {{ block.super }}{% endblock title %} {% block header %} {% endblock
+header %} Профиль {% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <form method="post">
+        {{ form|crispy }} {% csrf_token %}
+
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+        <a href="{% url 'users:generate_password' %}">
+          <button type="button" class="btn btn-primary">
+            Сгенерировать пароль
+          </button>
+        </a>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock content %}
