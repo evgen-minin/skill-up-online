@@ -1,5 +1,7 @@
-from skilluponline.models import Course
+from skilluponline.models import Course, Lesson
 from rest_framework import serializers
+
+from skilluponline.serializers.lesson import LessonSerializer
 
 
 class CourseSerializer(serializers.ModelSerializer):
@@ -17,10 +19,16 @@ class CourseSerializer(serializers.ModelSerializer):
     - description: Описание курса.
     - lesson_count: Количество уроков в курсе.
     """
+    lessons = serializers.SerializerMethodField()
     lesson_count = serializers.SerializerMethodField()
 
     def get_lesson_count(self, instance):
-        return instance.lesson_set_count()
+        return Lesson.objects.filter(course=instance).count()
+
+    def get_lessons(self, obj):
+        lessons = Lesson.objects.filter(course=obj)
+        lesson_serializer = LessonSerializer(lessons, many=True)
+        return lesson_serializer.data
 
     class Meta:
         model = Course
