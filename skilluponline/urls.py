@@ -4,6 +4,7 @@ from rest_framework import routers
 from skilluponline.views.course import CourseViewSet
 from skilluponline.views.lesson import LessonCreateView, LessonDeleteView, LessonDetailView, LessonListView, \
     LessonUpdateView
+from skilluponline.views.payments import PaymentListAPIView
 
 urlpatterns = [
     path('', LessonListView.as_view(), name='lesson_list'),
@@ -11,6 +12,7 @@ urlpatterns = [
     path('lessons/create/', LessonCreateView.as_view(), name='lesson_create'),
     path('lessons/<int:pk>/update/', LessonUpdateView.as_view(), name='lesson_update'),
     path('lessons/<int:pk>/delete/', LessonDeleteView.as_view(), name='lesson_delete'),
+    path('payments/', PaymentListAPIView.as_view(), name='payment_list'),
 ]
 
 router = routers.SimpleRouter()

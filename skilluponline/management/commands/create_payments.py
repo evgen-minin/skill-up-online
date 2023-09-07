@@ -6,10 +6,19 @@ from users.models import User
 
 
 class Command(BaseCommand):
+    """
+    Команда Django для создания примеров платежных данных.
+
+    Вы можете использовать ее для заполнения базы данных
+    фиктивными платежными данными для тестирования и разработки.
+
+    Примечание: Перед использованием этой команды убедитесь, что в вашей базе данных уже существуют пользователи
+    и курсы (замените 'username' и '1' в коде на реальные данные).
+    """
     help = 'Creates sample payment data'
 
     def handle(self, *args, **kwargs):
-        user = User.objects.get(username='evgen')
+        user = User.objects.get(username='username')
         your_course_or_lesson_instance = Course.objects.get(
             id=1)
         payment = Payment.objects.create(
