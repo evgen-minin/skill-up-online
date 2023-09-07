@@ -1,5 +1,7 @@
 from django.db import models
 
+from users.models import User
+
 
 class Course(models.Model):
     """
@@ -50,3 +52,25 @@ class Lesson(models.Model):
     class Meta:
         verbose_name = 'Урок'
         verbose_name_plural = 'Уроки'
+
+
+class Payment(models.Model):
+    """
+    Модель "Платежи" для отслеживания платежей пользователей за курсы или уроки.
+
+    Поля:
+    - user: Связь с пользователем, который сделал платеж.
+    - date: Дата и время платежа.
+    - course_or_lesson: Связь с курсом или уроком, за который был сделан платеж.
+    - amount: Сумма оплаты в формате DecimalField.
+    - payment_method: Способ оплаты, выбирается из списка (наличные, перевод на счет).
+    """
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    date = models.DateTimeField()
+    course_or_lesson = models.ForeignKey(Course, on_delete=models.CASCADE)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    payment_method_choices = [
+        ('cash', 'Наличные'),
+        ('transfer', 'Перевод на счёт'),
+    ]
+    payment_method = models.CharField(max_length=10, choices=payment_method_choices)
