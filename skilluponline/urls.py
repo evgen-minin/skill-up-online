@@ -2,9 +2,8 @@ from django.urls import path
 from rest_framework import routers
 
 from skilluponline.views.course import CourseViewSet
-from skilluponline.views.lesson import LessonCreateView, LessonDeleteView, LessonDetailView, LessonListView, LessonUpdateView
-
-
+from skilluponline.views.lesson import LessonCreateView, LessonDeleteView, LessonDetailView, LessonListView, \
+    LessonUpdateView
 
 urlpatterns = [
     path('', LessonListView.as_view(), name='lesson_list'),
