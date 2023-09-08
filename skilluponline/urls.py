@@ -7,7 +7,7 @@ from skilluponline.views.lesson import LessonCreateView, LessonDeleteView, Lesso
 from skilluponline.views.payments import PaymentListAPIView
 
 urlpatterns = [
-    path('', LessonListView.as_view(), name='lesson_list'),
+    path('lessons/', LessonListView.as_view(), name='lesson_list'),
     path('lessons/<int:pk>/', LessonDetailView.as_view(), name='lesson_detail'),
     path('lessons/create/', LessonCreateView.as_view(), name='lesson_create'),
     path('lessons/<int:pk>/update/', LessonUpdateView.as_view(), name='lesson_update'),
