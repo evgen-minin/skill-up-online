@@ -1,5 +1,6 @@
 from rest_framework import permissions
 
+
 class IsModerator(permissions.BasePermission):
     """
     Пользователи с разрешением "Модератор" могут только просматривать курсы,

@@ -11,7 +11,6 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib.sites.shortcuts import get_current_site
 from django.contrib import messages
-from django.http import HttpResponse
 
 from users.models import User
 
