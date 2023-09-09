@@ -20,6 +20,8 @@ class Course(models.Model):
     preview = models.ImageField(upload_to='course_previews/')
     description = models.TextField()
 
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
     class Meta:
         verbose_name = 'Курс'
         verbose_name_plural = 'Курсы'
@@ -48,6 +50,7 @@ class Lesson(models.Model):
     video_link = models.URLField()
 
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'Урок'
