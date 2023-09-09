@@ -1,6 +1,7 @@
 from rest_framework.generics import RetrieveAPIView, DestroyAPIView, ListAPIView, RetrieveUpdateAPIView, CreateAPIView
 
 from skilluponline.models import Lesson
+from skilluponline.permissions import IsModerator
 from skilluponline.serializers.lesson import LessonSerializer
 
 
@@ -48,6 +49,7 @@ class LessonListView(ListAPIView):
     """
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
+    permission_classes = [IsModerator]
 
 
 class LessonUpdateView(RetrieveUpdateAPIView):
@@ -78,6 +80,7 @@ class LessonUpdateView(RetrieveUpdateAPIView):
     """
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
+    permission_classes = [IsModerator]
 
 
 class LessonCreateView(CreateAPIView):
@@ -107,6 +110,7 @@ class LessonCreateView(CreateAPIView):
     """
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
+    permission_classes = [IsModerator]
 
 
 class LessonDeleteView(DestroyAPIView):
@@ -125,3 +129,4 @@ class LessonDeleteView(DestroyAPIView):
     """
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
+    permission_classes = [IsModerator]
