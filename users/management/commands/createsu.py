@@ -8,10 +8,12 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         user, created = User.objects.get_or_create(
             email='evgen@minin.ru',
-            first_name='Admin',
-            last_name='evgen',
-            is_staff=True,
-            is_superuser=True
+            defaults={
+                'first_name': 'Admin',
+                'last_name': 'evgen',
+                'is_staff': True,
+                'is_superuser': True,
+            }
         )
 
         if created:
