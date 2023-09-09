@@ -6,12 +6,14 @@ from django.contrib.auth.views import LoginView as BaseLoginView
 from django.contrib.auth.views import LogoutView as BaseLogoutView
 from django.urls import reverse_lazy, reverse
 from users.forms import UserRegisterForm, UserProfileForm, UserCreationForm
-from users.models import User
+
 from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib.sites.shortcuts import get_current_site
 from django.contrib import messages
 from django.http import HttpResponse
+
+from users.models import User
 
 
 class LoginView(BaseLoginView):

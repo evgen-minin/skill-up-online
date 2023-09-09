@@ -1,6 +1,5 @@
 from rest_framework import permissions
 
-
 class IsModerator(permissions.BasePermission):
     """
     Пользователи с разрешением "Модератор" могут только просматривать курсы,
@@ -20,11 +19,10 @@ class IsModerator(permissions.BasePermission):
 
     def has_object_permission(self, request, view, obj):
         # Проверка, является ли пользователь владельцем объекта
-        is_owner = obj.owner == request.user
+        is_owner = obj.user == request.user
 
         # Проверка, является ли пользователь модератором
         is_moderator = request.user.is_staff
 
         # Разрешить доступ к объекту только владельцу или модератору
         return is_owner or is_moderator
-

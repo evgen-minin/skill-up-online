@@ -20,7 +20,7 @@ class Course(models.Model):
     preview = models.ImageField(upload_to='course_previews/')
     description = models.TextField()
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='courses')
 
     class Meta:
         verbose_name = 'Курс'
@@ -29,7 +29,7 @@ class Course(models.Model):
 
 class Lesson(models.Model):
     """
-     Модель Lesson представляет собой урок в рамках курса.
+    Модель Lesson представляет собой урок в рамках курса.
 
     Поля:
     - title: Название урока (максимум 150 символов).
@@ -49,8 +49,8 @@ class Lesson(models.Model):
     preview = models.ImageField(upload_to='lesson_preview/')
     video_link = models.URLField()
 
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='lessons')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='lessons')
 
     class Meta:
         verbose_name = 'Урок'
