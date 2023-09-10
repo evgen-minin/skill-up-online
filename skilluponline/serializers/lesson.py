@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from skilluponline.models import Lesson
+from skilluponline.validators import YoutubeLinkValidator
 
 
 class LessonSerializer(serializers.ModelSerializer):
@@ -18,6 +19,8 @@ class LessonSerializer(serializers.ModelSerializer):
     - video_link: Ссылка на видео-урок.
     - course: ID курса, к которому относится урок.
     """
+
     class Meta:
         model = Lesson
         fields = '__all__'
+        validators = [YoutubeLinkValidator(field='video_link')]
