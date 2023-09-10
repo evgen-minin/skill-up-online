@@ -46,8 +46,8 @@ class Lesson(models.Model):
     """
     title = models.CharField(max_length=150)
     description = models.TextField()
-    preview = models.ImageField(upload_to='lesson_preview/')
-    video_link = models.URLField()
+    preview = models.ImageField(upload_to='lesson_preview/', blank=True, null=True)
+    video_link = models.URLField(blank=True, null=True)
 
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='lessons')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='lessons')
@@ -80,6 +80,15 @@ class Payment(models.Model):
 
 
 class CourseSubscription(models.Model):
+    """
+    Модель "Подписка на обновления курса" для отслеживания подписок пользователей на курсы.
+
+    Поля:
+    - user: Связь с пользователем, который подписан на курс.
+    - course: Связь с курсом, на который пользователь подписан.
+    - subscribed: Флаг, указывающий, подписан пользователь на обновления курса или нет (по умолчанию False).
+
+    """
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     subscribed = models.BooleanField(default=False)

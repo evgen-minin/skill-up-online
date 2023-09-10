@@ -24,3 +24,6 @@ class LessonSerializer(serializers.ModelSerializer):
         model = Lesson
         fields = '__all__'
         validators = [YoutubeLinkValidator(field_name='video_link')]
+        extra_kwargs = {
+            'preview': {'required': False}
+        }

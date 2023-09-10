@@ -8,6 +8,9 @@ class IsModerator(permissions.BasePermission):
     """
 
     def has_permission(self, request, view):
+        """
+         Проверяет, имеет ли пользователь разрешение на выполнение действия на уровне представления.
+        """
         # Проверка, является ли пользователь модератором
         is_moderator = request.user.is_staff
 
@@ -19,6 +22,9 @@ class IsModerator(permissions.BasePermission):
         return is_moderator
 
     def has_object_permission(self, request, view, obj):
+        """
+          Проверяет, имеет ли пользователь разрешение на выполнение действия на уровне объекта.
+        """
         # Проверка, является ли пользователь владельцем объекта
         is_owner = obj.user == request.user
 

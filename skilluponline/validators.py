@@ -4,7 +4,17 @@ from rest_framework.exceptions import ValidationError
 
 
 class YoutubeLinkValidator:
+    """
+    Валидатор ссылок на видео YouTube.
 
+    Этот валидатор проверяет, что значение поля является допустимой ссылкой на видео YouTube.
+
+    Параметры:
+    - field_name (str): Имя поля, для которого выполняется валидация.
+
+    Методы:
+    - __call__: Вызывается при валидации значения поля.
+    """
     def __init__(self, field_name):
         self.field_name = field_name
 

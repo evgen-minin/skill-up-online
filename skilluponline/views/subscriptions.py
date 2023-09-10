@@ -8,6 +8,17 @@ from skilluponline.serializers.subscriptions import CourseSubscriptionSerializer
 
 
 class CourseSubscriptionListView(ListCreateAPIView):
+    """
+    Представление для управления подпиской пользователя на курс.
+
+    Параметры:
+    - serializer_class: Сериализатор, используемый для преобразования данных подписки в JSON.
+
+    HTTP-методы:
+    - GET: Получает список подписок текущего пользователя на курсы.
+    - POST: Создает новую подписку пользователя на курс.
+
+    """
     serializer_class = CourseSubscriptionSerializer
 
     def get_queryset(self):
@@ -22,6 +33,16 @@ class CourseSubscriptionListView(ListCreateAPIView):
 
 
 class CourseSubscriptionDestroyView(DestroyAPIView):
+    """
+     Представление для отмены подписки пользователя на курс.
+
+    Параметры:
+    - queryset: Запрос к базе данных для получения списка подписок пользователя на курсы.
+
+    HTTP-методы:
+    - DELETE: Удаляет подписку пользователя на курс.
+
+    """
     def get_object(self):
         user = self.request.user
         course_id = self.kwargs.get('course_id')
