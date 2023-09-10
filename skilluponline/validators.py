@@ -20,5 +20,5 @@ class YoutubeLinkValidator:
 
     def __call__(self, value):
         youtube_pattern = r"https://www.youtube.com/.*"
-        if not re.search(youtube_pattern, value):
+        if not re.search(youtube_pattern, value[self.field_name]):
             raise ValidationError(f"Ссылка {self.field_name} должна вести на YouTube")
