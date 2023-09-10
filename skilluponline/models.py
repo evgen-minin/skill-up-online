@@ -77,3 +77,9 @@ class Payment(models.Model):
         ('transfer', 'Перевод на счёт'),
     ]
     payment_method = models.CharField(max_length=10, choices=payment_method_choices)
+
+
+class CourseSubscription(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    subscribed = models.BooleanField(default=False)
