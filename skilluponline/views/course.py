@@ -1,6 +1,7 @@
 from rest_framework.viewsets import ModelViewSet
 
 from skilluponline.models import Course
+from skilluponline.pagination import LessonCoursePagination
 from skilluponline.permissions import IsModerator
 from skilluponline.serializers.course import CourseSerializer
 
@@ -30,3 +31,4 @@ class CourseViewSet(ModelViewSet):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
     permission_classes = [IsModerator]
+    pagination_class = LessonCoursePagination

@@ -1,6 +1,8 @@
 from rest_framework.generics import RetrieveAPIView, DestroyAPIView, ListAPIView, RetrieveUpdateAPIView, CreateAPIView
+from rest_framework.response import Response
 
 from skilluponline.models import Lesson
+from skilluponline.pagination import LessonCoursePagination
 from skilluponline.permissions import IsModerator
 from skilluponline.serializers.lesson import LessonSerializer
 
@@ -50,6 +52,17 @@ class LessonListView(ListAPIView):
     queryset = Lesson.objects.all()
     serializer_class = LessonSerializer
     permission_classes = [IsModerator]
+    pagination_class = LessonCoursePagination
+
+    def get(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
 
 class LessonUpdateView(RetrieveUpdateAPIView):
