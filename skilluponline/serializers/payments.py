@@ -22,3 +22,7 @@ class PaymentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Payment
         fields = '__all__'
+
+
+class PaymentIntentCreateSerializer(serializers.ModelSerializer):
+    course_id = serializers.IntegerField()

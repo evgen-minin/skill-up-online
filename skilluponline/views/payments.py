@@ -1,10 +1,19 @@
 import django_filters
-from rest_framework import filters
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
+from rest_framework import filters, status
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.generics import ListAPIView
+from rest_framework.permissions import IsAuthenticated
 
 from skilluponline.models import Payment
-from skilluponline.serializers.payments import PaymentSerializer
+from skilluponline.serializers.payments import PaymentSerializer, PaymentIntentCreateSerializer
+
+from rest_framework import generics
+
+from skilluponline.stripe_api_service import StripeService
+from rest_framework.response import Response
+from rest_framework.views import Request
 
 
 class PaymentFilter(django_filters.FilterSet):
@@ -50,3 +59,29 @@ class PaymentListAPIView(ListAPIView):
     filter_backends = [filters.OrderingFilter, DjangoFilterBackend]
     ordering_fields = ['date']
     filterset_class = PaymentFilter
+
+
+class PaymentIntentCreateView(generics.CreateAPIView):
+    serializer_class = PaymentIntentCreateSerializer
+    permission_classes = [IsAuthenticated]
+
+    @swagger_auto_schema(
+        responses={
+            201: openapi.Response('Payment successful', PaymentSerializer),
+            400: 'Payment failed'
+        }
+    )
+    def post(self, request: Request, *args, **kwargs) -> Response:
+        """Создает платежное намерение"""
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            course_id = serializer.validated_data['course_id']
+            user = request.user
+            try:
+                payment_intent = StripeService.create_payment_intent(course_id, user)
+                payment = Payment.get_by_payment_intent_id(payment_intent_id=payment_intent['id'])
+                payment_serializer = PaymentSerializer(payment)
+                return Response(payment_serializer.data, status=status.HTTP_201_CREATED)
+            except Exception as error:
+                return Response({'error': str(error)}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
