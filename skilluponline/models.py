@@ -77,6 +77,15 @@ class Payment(models.Model):
         ('transfer', 'Перевод на счёт'),
     ]
     payment_method = models.CharField(max_length=10, choices=payment_method_choices)
+    payment_intent_id = models.CharField(max_length=255, unique=True)
+
+    @classmethod
+    def get_by_payment_intent_id(cls, payment_intent_id):
+        matching_payments = cls.objects.filter(payment_intent_id=payment_intent_id)
+        if matching_payments.exists():
+            return matching_payments.first()
+        else:
+            return None
 
 
 class CourseSubscription(models.Model):
