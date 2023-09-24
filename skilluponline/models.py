@@ -22,6 +22,12 @@ class Course(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='courses')
 
+    def save(self, *args, **kwargs):
+        from skilluponline.tasks import send_notify_update
+        if self.pk is not None:
+            send_notify_update.delay(self.pk)
+        super().save(*args, **kwargs)
+
     class Meta:
         verbose_name = 'Курс'
         verbose_name_plural = 'Курсы'
@@ -67,6 +73,7 @@ class Payment(models.Model):
     - course_or_lesson: Связь с курсом или уроком, за который был сделан платеж.
     - amount: Сумма оплаты в формате DecimalField.
     - payment_method: Способ оплаты, выбирается из списка (наличные, перевод на счет).
+    - payment_intent_id: 
     """
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateTimeField()
