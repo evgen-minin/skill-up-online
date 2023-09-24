@@ -75,6 +75,16 @@ class Payment(models.Model):
     - payment_method: Способ оплаты, выбирается из списка (наличные, перевод на счет).
     - payment_intent_id: 
     """
+    status_new = 'new'
+    status_handle = 'handle'
+    status_done = 'done'
+    status_canceled = 'canceled'
+    statuses = (
+        (status_new, 'new'),
+        (status_handle, 'handle'),
+        (status_done, 'done'),
+        (status_canceled, 'canceled'),
+    )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateTimeField()
     course_or_lesson = models.ForeignKey(Course, on_delete=models.CASCADE)
@@ -85,6 +95,8 @@ class Payment(models.Model):
     ]
     payment_method = models.CharField(max_length=10, choices=payment_method_choices)
     payment_intent_id = models.CharField(max_length=255, unique=True)
+
+    status = models.CharField(max_length=20, choices=statuses, default=status_new)
 
     @classmethod
     def get_by_payment_intent_id(cls, payment_intent_id):
